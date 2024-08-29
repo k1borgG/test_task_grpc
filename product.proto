@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package test_task_grpc;
+
+option go_package = ".";
+
+import "google/protobuf/timestamp.proto";
+
+message Coordinates {
+    double lat = 1;
+    double lon = 2;
+}
+
+message AddProduct {
+    string name = 1;
+    string description = 2;
+    string brand = 3;
+    string model = 4;
+    Coordinates coordinates = 5;
+    google.protobuf.Timestamp created_at = 6;
+    uint32 price = 7;
+} 
+
+message GetProduct {
+    optional string name = 1;
+    optional string description = 2;
+    optional string brand = 3;
+    optional string model = 4;
+    optional Coordinates coordinates = 5;
+    optional google.protobuf.Timestamp created_at = 6;
+    optional uint32 price = 7;
+    optional string filter_date1 = 8;
+    optional string filter_date2 = 9;
+    optional string filter_price1 = 10;
+    optional string filter_price2 = 11;
+}
+
+message AddProductRequest {
+    AddProduct product = 1;
+}
+
+message AddProductResponse {
+    string id = 1;
+    AddProduct product = 2;
+}
+
+message GetProductRequest{
+    GetProduct product = 1;
+}
+
+message GetProductResponse{
+    repeated AddProduct product = 1;
+}
+
+service ProductService {
+    rpc AddProduct(AddProductRequest) returns (AddProductResponse);
+    rpc GetProduct(GetProductRequest) returns (GetProductResponse);
+}
